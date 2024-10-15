@@ -1,67 +1,69 @@
-import {StyleSheet, Text, View, useWindowDimensions} from 'react-native';
+import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import React from 'react';
+
 import Animated, {
-    AnimationObject,
   Extrapolation,
   SharedValue,
   interpolate,
   useAnimatedStyle,
+  BounceIn,
+  Easing,
+  FadeIn,
 } from 'react-native-reanimated';
 
 import LottieView from 'lottie-react-native';
 
 interface OnboardingDataInterface {
-    id: number;
-    text: string;
-    backgroundColor: string;
-    textColor: string;
-    image: AnimationObject;
-  }
+  id: number;
+  text: string;
+  backgroundColor: string;
+  textColor: string;
+  image: any;
+}
+
 type Props = {
   index: number;
   x: SharedValue<number>;
   item: OnboardingDataInterface;
 };
 
-const RenderItem = ({index, x, item}: Props) => {
-  const {width: SCREEN_WIDTH,height:SCREEN_HEIGHT} = useWindowDimensions();
+const RenderItem = ({ index, x, item }: Props) => {
+  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
 
   const lottieAnimationStyle = useAnimatedStyle(() => {
+    const scale = interpolate(
+      x.value,
+      [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH],
+      [0.5, 1, 1],
+      Extrapolation.CLAMP
+    );
     const translateYAnimation = interpolate(
       x.value,
-      [
-        (index - 1) * SCREEN_WIDTH,
-        index * SCREEN_WIDTH,
-        (index + 1) * SCREEN_WIDTH,
-      ],
+      [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH],
       [200, 0, -200],
-      Extrapolation.CLAMP,
+      Extrapolation.CLAMP
     );
 
     return {
-      transform: [{translateY: translateYAnimation}],
+      transform: [{ translateY: translateYAnimation }, { scale }],
     };
   });
 
   const circleAnimation = useAnimatedStyle(() => {
     const scale = interpolate(
       x.value,
-      [
-        (index - 1) * SCREEN_WIDTH,
-        index * SCREEN_WIDTH,
-        (index + 1) * SCREEN_WIDTH,
-      ],
+      [(index - 1) * SCREEN_WIDTH, index * SCREEN_WIDTH, (index + 1) * SCREEN_WIDTH],
       [1, 4, 4],
-      Extrapolation.CLAMP,
+      Extrapolation.CLAMP
     );
 
     return {
-      transform: [{scale: scale}],
+      transform: [{ scale }],
     };
   });
 
   return (
-    <View style={[styles.itemContainer, {width: SCREEN_WIDTH,height:SCREEN_HEIGHT}]}>
+    <View style={[styles.itemContainer, { width: SCREEN_WIDTH, height: SCREEN_HEIGHT }]}>
       <View style={styles.circleContainer}>
         <Animated.View
           style={[
@@ -79,16 +81,24 @@ const RenderItem = ({index, x, item}: Props) => {
         <LottieView
           source={item.image}
           style={{
-            width: SCREEN_WIDTH * 0.9,
-            height: SCREEN_WIDTH * 0.9,
+            width: SCREEN_WIDTH / 1.3,
+            height: SCREEN_WIDTH / 1.3,
+            margin: 'auto',
           }}
           autoPlay
           loop
         />
+
+        <Text style={[styles.itemText, { color: item.textColor, zIndex: 2 }]}>{item.text}</Text>
+        {index === 2 && (
+          <Animated.View
+            entering={BounceIn}
+            style={{paddingVertical:10,width:200,backgroundColor:"blue",borderRadius:50,margin:"auto",display:"flex",alignItems:"center"}}
+            >
+            <Text style={{color:"white",fontSize:20}}>Get Started</Text>
+          </Animated.View>
+        )}
       </Animated.View>
-      <Text style={[styles.itemText, {color: item.textColor}]}>
-        {item.text}
-      </Text>
     </View>
   );
 };
@@ -97,8 +107,8 @@ export default RenderItem;
 
 const styles = StyleSheet.create({
   itemContainer: {
-  
-    justifyContent: 'space-around',
+    display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 120,
   },
@@ -113,5 +123,14 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'flex-end',
+  },
+  getStartedButton: {
+    marginTop: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    backgroundColor: 'green',
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
