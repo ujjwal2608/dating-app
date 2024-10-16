@@ -1,9 +1,10 @@
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
-import React from 'react';
+import {  StyleSheet, useWindowDimensions, View } from 'react-native';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Animated from 'react-native-reanimated';
+import Animated, { Keyframe, useAnimatedStyle,Easing, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import StackCard from '~/components/StackCard';
-
+import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
 interface PersonInterface {
   id: number;
   name: string;
@@ -106,16 +107,55 @@ const Stack = () => {
       image: 'https://randomuser.me/api/portraits/women/52.jpg',
     },
   ];
+  const scale1 = useSharedValue(0.8); // Initial scale for first animated view
+  const scale2 = useSharedValue(1); // Initial scale for second animated view
+  const scale3 = useSharedValue(0.8); // Initial scale for third animated view
+
+  // Function to trigger scale in and out animations
+  const triggerAnimation = () => {
+    scale1.value = withRepeat(withTiming(1, { duration: 3000, easing: Easing.inOut(Easing.ease) }), -1, true);
+    scale2.value = withRepeat(withTiming(0.9, { duration: 3000, easing: Easing.inOut(Easing.ease) }), -1, true);
+    scale3.value = withRepeat(withTiming(1, { duration: 3000, easing: Easing.inOut(Easing.ease) }), -1, true);
+  };
+
+  // Use useEffect to trigger the animation when the component mounts
+  useEffect(() => {
+    triggerAnimation();
+  }, []);
+  const animatedStyle1 = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale1.value }],
+    };
+  });
+
+  const animatedStyle2 = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale2.value }],
+    };
+  });
+
+  const animatedStyle3 = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale3.value }],
+    };
+  });
 
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: 'red', alignItems: 'center', justifyContent: 'center' }}>
+      style={{ flex: 1,alignItems:"center",justifyContent:"center",backgroundColor:"rgb(200,220,222)"}}>
+    
+      <Animated.View style={[animatedStyle1,{backgroundColor:"rgb(234,156,246)",zIndex:2,top:100,right:0,borderRadius:150,width:200,height:200,position:"absolute"}]}></Animated.View>
+      <Animated.View style={[animatedStyle2,{backgroundColor:"rgb(143,203,249)",zIndex:3,top:600,left:-100,borderRadius:300,width:200,height:200,position:"absolute"}]}></Animated.View>   
+      <Animated.View style={[animatedStyle3,{backgroundColor:"rgb(179,182,246)",top:200,right:10,borderRadius:350,width:500,height:500,position:"absolute"}]}></Animated.View>    
+      <BlurView intensity={30} style={{zIndex:5,width:SCREEN_WIDTH,height:SCREEN_HEIGHT,position:"absolute",top:0,left:0,alignItems:"center",justifyContent:"center"}} >   
       <Animated.View
         style={{
           height: SCREEN_HEIGHT * 0.6,
           width: SCREEN_WIDTH * 0.8,
+          zIndex:4
         }}>
-        {person.map((item) => (
+
+        {person.reverse().map((item) => (
           <StackCard
             key={item.id}
             item={item}
@@ -124,6 +164,7 @@ const Stack = () => {
           />
         ))}
       </Animated.View>
+      </BlurView>
     </SafeAreaView>
   );
 };
