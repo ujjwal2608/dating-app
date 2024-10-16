@@ -38,10 +38,12 @@ const StackCard = ({
   const prevY = useSharedValue(0);
   const rotateZ = useSharedValue(-5 + Math.random() * 10); // initial random rotation
 const scale = useSharedValue(1)
+const prevRotateZ = useSharedValue(0)
   const drag = Gesture.Pan()
     .onStart(() => {
       prevX.value = x.value;
       prevY.value = y.value;
+      prevRotateZ.value =rotateZ.value
     })
     .onUpdate((e) => {
         scale.value = 1.1
@@ -61,8 +63,10 @@ const scale = useSharedValue(1)
         x.value = withTiming(SCREEN_WIDTH); // Animate card off to the right
       } else {
         // Snap back if no significant swipe
+        rotateZ.value  =withSpring(prevRotateZ.value)
         x.value = withSpring(0);
         y.value = withSpring(0);
+        scale.value = withSpring(1)
       }
     });
 
