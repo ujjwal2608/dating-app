@@ -14,6 +14,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AntDesign } from '@expo/vector-icons';
 import Octicons from '@expo/vector-icons/Octicons';
 import { StatusBar } from 'expo-status-bar';
+import { BlurView } from 'expo-blur';
+import RenderItem from '~/components/onboardingCard';
 export default function TabLayout() {
   return (
     <>
@@ -32,21 +34,21 @@ export default function TabLayout() {
         name="stack"
         options={{
             title: 'Stack',
-            tabBarIcon: ({ color }) => <AntDesign name="heart" size={24} color="white" />,
+            tabBarIcon: ({ color }) => <AntDesign name="heart" size={20} color="white" />,
         }}
         />
       <Tabs.Screen
         name="profile"
         options={{
             title: 'profile',
-            tabBarIcon: ({ color }) => <Octicons name="person" size={24} color="white" />,
+            tabBarIcon: ({ color }) => <Octicons name="person" size={20} color="white" />,
         }}
         />
       <Tabs.Screen
         name="chat"
         options={{
             title: 'chat',
-            tabBarIcon: ({ color }) => <Ionicons name="chatbox-outline" size={24} color="white" />,
+            tabBarIcon: ({ color }) => <Ionicons name="chatbox-outline" size={20} color="white" />,
         }}
         />
     </Tabs>
@@ -84,23 +86,30 @@ const AnimatedTabBar = ({
   const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
 
   return (
-    <View style={{ width:SCREEN_WIDTH,backgroundColor:"rgb(20,12,54)", margin: 'auto'}}>
+    <View style={{ width:SCREEN_WIDTH,backgroundColor:"rgb(40,25,52)", margin: 'auto'}}>
+     <View style={styles.tabBarContainer}>
+      <BlurView intensity={5} style={{backgroundColor:"transparent",flex:1,  flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',}}>
       <Animated.View
         style={[
           {
-            backgroundColor: 'red',
-            opacity: 0.3,
-            height: 50,
-            width: 50,
+            backgroundColor: 'rgb(245,63,127)',
+            height: 30,
+            width: 30,
             borderRadius: 100,
             position: 'absolute',
-            left: 24,
-            top: 15,
-            zIndex: 10,
+            left: 25,
+            top: 40,
+            zIndex: -1,
+            shadowColor: 'rgb(245,63,127)', // Same color as the box with opacity
+            
+            shadowOpacity: 1,
+            shadowRadius: 20, // Adjust the radius for larger shadow
+            elevation: 12, 
           },
           animatedStyles,
         ]}></Animated.View>
-      <View style={styles.tabBarContainer}>
         {routes.map((route, index) => {
           const active = index === activeIndex;
           const { options } = descriptors[route.key];
@@ -114,6 +123,7 @@ const AnimatedTabBar = ({
             />
           );
         })}
+      </BlurView>
       </View>
     </View>
   );
@@ -140,15 +150,16 @@ const TabBarComponent = ({ active, options, onPress, onLayout }: TabBarComponent
 
 const styles = StyleSheet.create({
   tabBarContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: 'rgb(45,32,108)',
-    paddingVertical: 15,
+  
+   
     borderRadius:200,
     width:350,
+    height:50,
     margin:"auto",
-    bottom:30
+    bottom:50,
+    borderColor:"rgb(139,104,125)",
+    borderWidth:2,
+    overflow:"hidden"
   },
   pressable: {
     flex: 1,
@@ -160,5 +171,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 50,
     width: 50,
+   
   },
 });

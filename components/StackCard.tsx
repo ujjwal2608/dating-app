@@ -10,6 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 
+
 interface PersonInterface {
   id: number;
   name: string;
@@ -48,7 +49,7 @@ const StackCard = ({
       prevRotateZ.value = rotateZ.value;
     })
     .onUpdate((e) => {
-      scale.value = 1.1;
+      scale.value = 0.8;
       rotateZ.value = 0;
       x.value = prevX.value + e.translationX;
       y.value = prevY.value + e.translationY;
@@ -58,11 +59,11 @@ const StackCard = ({
       if (x.value < -SWIPE_THRESHOLD) {
         // Left swipe
         runOnJS(onSwipeLeft)(); // Trigger left swipe callback
-        x.value = withTiming(-SCREEN_WIDTH); // Animate card off to the left
+        x.value = withTiming(-SCREEN_WIDTH*2); // Animate card off to the left
       } else if (x.value > SWIPE_THRESHOLD) {
         // Right swipe
         runOnJS(onSwipeRight)(); // Trigger right swipe callback
-        x.value = withTiming(SCREEN_WIDTH); // Animate card off to the right
+        x.value = withTiming(SCREEN_WIDTH*2); // Animate card off to the right
       } else {
         // Snap back if no significant swipe
         rotateZ.value = withSpring(prevRotateZ.value);
@@ -84,36 +85,40 @@ const StackCard = ({
   }));
 
   return (
-    <GestureHandlerRootView>
+    <GestureHandlerRootView style={{position:"absolute",top:"50%",left:"50%",transform:[{translateX:-SCREEN_WIDTH*0.9/2+10*item.id},{translateY:-SCREEN_HEIGHT/2}]}}>
       <GestureDetector gesture={drag}>
         <Animated.View
           style={[
             {
-              height: SCREEN_HEIGHT * 0.6,
-              width: SCREEN_WIDTH * 0.8,
-              position: 'absolute',
-              backgroundColor: 'white',
-              borderRadius: 20,
-              marginTop: 55 * item.id - SCREEN_HEIGHT*0.6,
-              overflow: 'hidden',
+              height: SCREEN_HEIGHT*0.7,
+              width: (SCREEN_WIDTH*0.9)-item.id*20,
+             position:"absolute",
+             borderRadius:20,
+             overflow:"hidden",
+              backgroundColor: 'transparent',      
+              borderColor:"rgb(139,104,125)",
+              borderWidth:2,
+              marginTop:20*item.id,
+              
             },
             animatedStyle,
           ]}>
           <ImageBackground
             source={{ uri: item.image }} // Set the image as the background
             resizeMode="cover" // Adjust how the image fits the card
-            style={{ flex: 1, padding: 20 }} // Full size of the card
+            style={{ flex: 1, padding: 20,    borderColor:"rgb(139,104,125)",
+                borderWidth:2}} // Full size of the card
           >
-            <BlurView intensity={15} style={{ position: 'absolute', bottom: 0, left: 0,padding:20 }}>
+             </ImageBackground>
+            <BlurView intensity={60} style={{ height:"30%",padding:20,backgroundColor:"transparent" }}>
                 
               <Text style={styles.title}>{item.name}</Text>
               <Text style={styles.description}>{item.description}</Text>
-              <View style={{ width: SCREEN_WIDTH * 0.8, flexWrap: 'wrap', flexDirection: 'row' }}>
+              <View style={{ width: SCREEN_WIDTH*0.9, flexWrap: 'wrap', flexDirection: 'row' }}>
                 {item.interest.map((interest, index) => (
                   <View
                     key={index}
                     style={{
-        
                       backgroundColor: 'rgba(128, 128, 128, 0.3)',
                       alignItems: 'center',
                       justifyContent: 'center',          
@@ -127,7 +132,7 @@ const StackCard = ({
               </View>
               <Text style={styles.age}>Age: {item.age}</Text>
             </BlurView>
-          </ImageBackground>
+         
         </Animated.View>
       </GestureDetector>
     </GestureHandlerRootView>
@@ -158,5 +163,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: 'white',
+    marginBottom:10
   },
 });
