@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 const login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,6 +33,7 @@ const login = () => {
 
   const handleLogin = () => {
     Alert.alert('Login Attempted', `Email: ${form.email}\nPassword: ${form.password}`);
+    router.push('/(home)');
   };
 
   return (
