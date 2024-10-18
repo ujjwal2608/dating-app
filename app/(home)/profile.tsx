@@ -84,8 +84,13 @@ const Index = () => {
   });
   const interest = ['basketball', 'gaming', 'technology', 'traveling', 'photography', 'yoga'];
   return (
-    <SafeAreaView style={{ flex: 1,position:"relative", backgroundColor: 'rgb(40,25,52)', alignItems: 'center' }}>
-       
+    <SafeAreaView
+      style={{
+        flex: 1,
+        position: 'relative',
+        backgroundColor: 'rgb(40,25,52)',
+        alignItems: 'center',
+      }}>
       <View
         style={{
           width: width * 0.9,
@@ -94,7 +99,7 @@ const Index = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        <Text style={{ color: 'white', fontSize: 34, fontWeight: 900 }}>TINDER</Text>
+        <Text style={{ color: 'white', fontSize: 28, fontWeight: 900 }}>Middle Age Dating</Text>
         <Image
           source={{
             uri: 'https://imgs.search.brave.com/UCHK6cNPnjF2vMiIWZE7ddqFyI5S6vmFm6HMn4HBM9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTc1/NTE1NDc1L3Bob3Rv/L21vdW50YWlucy5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/ZTBUeGRxcG1ReGdT/WW9IaUI2RjZ4LVNM/c0xiSWVXN3lNM3dl/U0JOeVo1VT0',
@@ -109,7 +114,7 @@ const Index = () => {
         />
       </View>
       <View style={{ alignItems: 'flex-start', width: width * 0.9, gap: 10, margin: 20 }}>
-        <Text style={{ color: 'white', fontSize: 26, fontWeight: 700 }}>Aman Fangeria!</Text>
+        <Text style={{ color: 'white', fontSize: 26, fontWeight: 700 }}>Hello, Aman!</Text>
         <Text style={{ color: 'rgb(148,134,148)', fontSize: 16, fontWeight: 400 }}>
           Finance and economics enthusiast. Interested in coding and technology. Loves exploring new
           food spots.
@@ -139,7 +144,7 @@ const Index = () => {
           style={{}}
         />
       </View>
-      <View style={{ width: width * 0.9, flexWrap: 'wrap', flexDirection: 'row',marginTop:20 }}>
+      <View style={{ width: width * 0.9, flexWrap: 'wrap', flexDirection: 'row', marginTop: 20 }}>
         {interest.map((interest, index) => (
           <View
             key={index}

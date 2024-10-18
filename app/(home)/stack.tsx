@@ -1,7 +1,14 @@
-import {  ImageBackground, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ImageBackground, StyleSheet, useWindowDimensions, View } from 'react-native';
 import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Animated, { Keyframe, useAnimatedStyle,Easing, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import Animated, {
+  Keyframe,
+  useAnimatedStyle,
+  Easing,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import StackCard from '~/components/StackCard';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -24,32 +31,32 @@ const Stack = () => {
     console.log(`${person.name} was swiped right!`);
   };
   const person: PersonInterface[] = [
-    {
-      id: 1,
-      name: 'Aman',
-      interest: ['coding', 'drawing', 'foodie'],
-      description:
-        'Finance and economics enthusiast. Interested in coding and technology. Loves exploring new food spots.',
-      age: 21,
-      image:
-        'https://finetechhub.com/wp-content/uploads/2024/07/Beautiful-sofa-instagram-dp-boy-1024x1024.jpg.webp',
-    },
-    {
-      id: 2,
-      name: 'Sara',
-      interest: ['traveling', 'photography', 'yoga'],
-      description: 'A travel lover and photographer, enjoys capturing nature and practicing yoga.',
-      age: 28,
-      image: 'https://randomuser.me/api/portraits/women/21.jpg',
-    },
-    {
-      id: 3,
-      name: 'John',
-      interest: ['basketball', 'gaming', 'technology'],
-      description: 'A tech geek who loves playing basketball and is an avid gamer.',
-      age: 25,
-      image: 'https://randomuser.me/api/portraits/men/31.jpg',
-    },
+    // {
+    //   id: 1,
+    //   name: 'Aman',
+    //   interest: ['coding', 'drawing', 'foodie'],
+    //   description:
+    //     'Finance and economics enthusiast. Interested in coding and technology. Loves exploring new food spots.',
+    //   age: 21,
+    //   image:
+    //     'https://finetechhub.com/wp-content/uploads/2024/07/Beautiful-sofa-instagram-dp-boy-1024x1024.jpg.webp',
+    // },
+    // {
+    //   id: 2,
+    //   name: 'Sara',
+    //   interest: ['traveling', 'photography', 'yoga'],
+    //   description: 'A travel lover and photographer, enjoys capturing nature and practicing yoga.',
+    //   age: 28,
+    //   image: 'https://randomuser.me/api/portraits/women/21.jpg',
+    // },
+    // {
+    //   id: 3,
+    //   name: 'John',
+    //   interest: ['basketball', 'gaming', 'technology'],
+    //   description: 'A tech geek who loves playing basketball and is an avid gamer.',
+    //   age: 25,
+    //   image: 'https://randomuser.me/api/portraits/men/31.jpg',
+    // },
     // {
     //   id: 4,
     //   name: 'Lily',
@@ -106,19 +113,46 @@ const Stack = () => {
     //   age: 22,
     //   image: 'https://randomuser.me/api/portraits/women/52.jpg',
     // },
+    {
+      id: 0,
+      name: 'Aman',
+      interest: ['coding', 'drawing', 'foodie'],
+      description:
+        'Finance and economics enthusiast. Interested in coding and technology. Loves exploring new food spots.',
+      age: 43,
+      image:
+        'https://media.istockphoto.com/id/1399050284/photo/smart-caucasian-mature-middle-aged-freelancer-man-in-beige-shirt-wearing-glasses-looking-at.jpg?s=612x612&w=0&k=20&c=ZB6F3cYm1S4XNApDrbDJKCBGFVkQTrpRKUjtBz5gGGk=',
+    },
+    {
+      id: 1,
+      name: 'Sara',
+      interest: ['traveling', 'photography', 'yoga'],
+      description: 'A travel lover and photographer, enjoys capturing nature and practicing yoga.',
+      age: 42,
+      image:
+        'https://watermark.lovepik.com/photo/20211203/large/lovepik-middle-aged-woman-portrait-picture_501479740.jpg',
+    },
+    {
+      id: 2,
+      name: 'John',
+      interest: ['basketball', 'gaming', 'technology'],
+      description: 'A tech geek who loves playing basketball and is an avid gamer.',
+      age: 40,
+      image:
+        'https://st4.depositphotos.com/12982378/30159/i/450/depositphotos_301594150-stock-photo-happy-blonde-mature-woman-looking.jpg',
+    },
   ];
- 
+
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:"rgb(40,25,52)"}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'rgb(40,25,52)' }}>
       <Animated.View
         style={{
           height: SCREEN_HEIGHT,
           width: SCREEN_WIDTH,
-          zIndex:4,
-          position:"relative",
-          backgroundColor:"transparent"
+          zIndex: 4,
+          position: 'relative',
+          backgroundColor: 'transparent',
         }}>
-
         {person.reverse().map((item) => (
           <StackCard
             key={item.id}
@@ -128,8 +162,7 @@ const Stack = () => {
           />
         ))}
       </Animated.View>
-      </SafeAreaView>
-
+    </SafeAreaView>
   );
 };
 
