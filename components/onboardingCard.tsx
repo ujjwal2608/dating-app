@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import LottieView from 'lottie-react-native';
+import { useRouter } from 'expo-router';
 
 interface OnboardingDataInterface {
   id: number;
@@ -28,6 +29,7 @@ type Props = {
 };
 
 const RenderItem = ({ index, x, item }: Props) => {
+  const router = useRouter();
   const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
 
   const lottieAnimationStyle = useAnimatedStyle(() => {
@@ -93,9 +95,20 @@ const RenderItem = ({ index, x, item }: Props) => {
         {index === 2 && (
           <Animated.View
             entering={BounceIn}
-            style={{paddingVertical:10,width:200,backgroundColor:"blue",borderRadius:50,margin:"auto",display:"flex",alignItems:"center"}}
-            >
-            <Text style={{color:"white",fontSize:20}}>Get Started</Text>
+            style={{
+              paddingVertical: 10,
+              width: 200,
+              backgroundColor: 'blue',
+              borderRadius: 50,
+              margin: 'auto',
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{ color: 'white', fontSize: 20 }}
+              onPress={() => router.push('/(auth)/login')}>
+              Get Started
+            </Text>
           </Animated.View>
         )}
       </Animated.View>
